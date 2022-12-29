@@ -84,19 +84,6 @@ public class CartController {
 		}
 		
 	}
-
-	/*
-	 * @PutMapping("cart/update/{id}") ResponseEntity<ResponseObject>
-	 * updateCart(@PathVariable Long id,@RequestParam String status){ Optional<Cart>
-	 * opCart = cartRepository.findById(id); Cart cart = opCart.get();
-	 * List<PurchaseProduct> orders = (List<PurchaseProduct>) cart.getOrders(); for
-	 * (PurchaseProduct order:orders) { order.setStatus(status);
-	 * purchaseProductRepository.save(order); } return
-	 * ResponseEntity.status(HttpStatus.OK).body( new ResponseObject("ok",
-	 * "Get carts successfully",orders) );
-	 * 
-	 * }
-	 */
 	@PostMapping("cart/add")
 	ResponseEntity<ResponseObject> addCart(@Valid @RequestBody AddCartRequest addCartRequest){
 		String[] ids = addCartRequest.getId().split(" ");
@@ -109,13 +96,15 @@ public class CartController {
 				orders.add(order);
 				
 			}
-			Date date = Calendar.getInstance().getTime();  
-			DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");  
-			String strDate = dateFormat.format(date);  
+			/*
+			 * Date date = Calendar.getInstance().getTime(); DateFormat dateFormat = new
+			 * SimpleDateFormat("yyyy-mm-dd hh:mm:ss"); String strDate =
+			 * dateFormat.format(date);
+			 */
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 			Optional<User> optionUser = userRepository.findByUsername(auth.getName());
 			User user = optionUser.get();
-			Cart cart = new Cart(strDate,orders,user);
+			Cart cart = new Cart(orders,user);
 			
 			
 			return ResponseEntity.status(HttpStatus.OK).body(

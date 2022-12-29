@@ -26,9 +26,8 @@ public class Cart {
 	@ManyToOne(targetEntity = User.class, cascade = CascadeType.ALL)
 	@JoinColumn(name="user_id", referencedColumnName = "id")
 	private User user;
-	public Cart(String date, Collection<PurchaseProduct> orders, User user) {
+	public Cart(Collection<PurchaseProduct> orders, User user) {
 		super();
-		this.date = date;
 		this.orders = orders;
 		this.user = user;
 	}
